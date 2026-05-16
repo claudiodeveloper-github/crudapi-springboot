@@ -8,7 +8,7 @@
 
 API CRUD desenvolvida com Spring Boot e PostgreSQL para operações básicas de cadastro.
 
----
+***
 
 ## Tecnologias Utilizadas
 
@@ -18,7 +18,7 @@ API CRUD desenvolvida com Spring Boot e PostgreSQL para operações básicas de 
 - PostgreSQL
 - Maven
 
----
+***
 
 ## Funcionalidades
 
@@ -27,13 +27,13 @@ API CRUD desenvolvida com Spring Boot e PostgreSQL para operações básicas de 
 - Atualização de dados
 - Remoção de registros
 
----
+***
 
 ## Objetivo
 
 Projeto desenvolvido para praticar construção de APIs REST utilizando Spring Boot, arquitetura em camadas e integração com banco de dados relacional.
 
----
+***
 
 ## Endpoints
 
@@ -44,7 +44,7 @@ Projeto desenvolvido para praticar construção de APIs REST utilizando Spring B
 | PUT | /usuarios/{id} | Atualiza usuário |
 | DELETE | /usuarios/{id} | Remove usuário |
 
----
+***
 
 ## Arquitetura
 
@@ -55,7 +55,7 @@ O projeto segue arquitetura em camadas:
 - Repository
 - Model
 
----
+***
 
 ## Melhorias Futuras
 
@@ -65,7 +65,7 @@ O projeto segue arquitetura em camadas:
 - Testes unitários
 - Docker
 
----
+***
 
 ## Licença
 
