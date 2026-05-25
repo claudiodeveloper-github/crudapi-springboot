@@ -51,16 +51,15 @@ Projeto desenvolvido para praticar construção de APIs REST utilizando Spring B
   "email": "fulano@email.com"
 }
 
-Como Executar o Projeto
-Pré-requisitos
-Java 21
+## Como Executar o Projeto
 
-PostgreSQL 15+
+### Pré-requisitos
+* Java 21
+* PostgreSQL 15+
+* Maven 3.x
 
-Maven 3.x
-
-1. Clonar o repositório
-
+### 1. Clonar o repositório
+```bash
 git clone [https://github.com/claudiodeveloper-github/crudapi-springboot.git](https://github.com/claudiodeveloper-github/crudapi-springboot.git)
 cd crudapi-springboot
 
