@@ -1,272 +1,275 @@
-# Spring Boot CRUD API
+# 🗄️ crudapi-springboot
 
-![Java](https://img.shields.io/badge/Java-21-orange)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-green)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
-![Status](https://img.shields.io/badge/status-concluído-green)
-![License](https://img.shields.io/badge/license-MIT-green)
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21"/>
+  <img src="https://img.shields.io/badge/Spring_Boot-4.0.6-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 4.0.6"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-18.3-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL 18.3"/>
+  <img src="https://img.shields.io/badge/Maven-3.x-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven 3.x"/>
+</p>
 
-> API CRUD desenvolvida com Spring Boot e PostgreSQL para operações básicas de cadastro de usuários.
-
----
-
-## 📋 Índice
-
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Arquitetura](#-arquitetura)
-- [Funcionalidades](#-funcionalidades)
-- [Endpoints](#-endpoints)
-- [Como Executar o Projeto](#-como-executar-o-projeto)
-- [Melhorias Futuras](#-melhorias-futuras)
-- [Licença](#-licença)
+API RESTful completa para o gerenciamento de um catálogo de produtos, construída com Java 21 e Spring Boot 4. Implementa todas as operações de CRUD via endpoints HTTP padronizados, com persistência em PostgreSQL e credenciais protegidas por variáveis de ambiente. Projeto estruturado em arquitetura em camadas, demonstrando separação clara de responsabilidades e boas práticas de engenharia de software.
 
 ---
 
-## 💡 Sobre o Projeto
+## 📦 Tecnologias Utilizadas
 
-Projeto desenvolvido para praticar a construção de APIs REST utilizando **Spring Boot**, seguindo a arquitetura em camadas (Controller → Service → Repository → Model) e integração com banco de dados relacional **PostgreSQL**.
-
-O objetivo principal é consolidar boas práticas no desenvolvimento de APIs RESTful, incluindo separação de responsabilidades, uso do Spring Data JPA e exposição de endpoints padronizados.
-
----
-
-## 🛠 Tecnologias Utilizadas
-
-| Tecnologia | Versão | Finalidade |
-|---|---|---|
-| Java | 21 | Linguagem principal |
-| Spring Boot | 3.x | Framework base da aplicação |
-| Spring Data JPA | — | Abstração do acesso ao banco de dados |
-| PostgreSQL | 15+ | Banco de dados relacional |
-| Maven | 3.x | Gerenciamento de dependências e build |
+| Tecnologia           | Versão              | Finalidade no Projeto                                     |
+|----------------------|---------------------|-----------------------------------------------------------|
+| Java                 | 21 (Oracle OpenJDK) | Linguagem principal da aplicação                          |
+| Spring Boot          | 4.0.6               | Framework base: IoC, auto-configuração, servidor embutido |
+| Spring Data JPA      | (gerenciado pelo BOM) | Abstração do acesso a dados via repositórios              |
+| Hibernate            | 7.2.12.Final        | Implementação JPA; geração e execução de SQL              |
+| PostgreSQL           | 18.3                | Banco de dados relacional para persistência               |
+| Maven                | 3.x                 | Gerenciamento de dependências e ciclo de build            |
 
 ---
 
-## 🏗 Arquitetura
+## 🏗️ Arquitetura e Fluxo de Requisição
 
-O projeto segue a **arquitetura em camadas**, garantindo separação clara de responsabilidades:
+### Estrutura de Pacotes
 
-```
-src/main/java/
-└── com.example.crudapi/
-    ├── controller/      → Exposição dos endpoints REST
-    ├── service/         → Regras de negócio da aplicação
-    ├── repository/      → Comunicação com o banco de dados (Spring Data JPA)
-    └── model/           → Entidades e mapeamento relacional (JPA/Hibernate)
+```text
+src/
+└── main/
+    ├── java/
+    │   └── com/seuprojeto/crudapi/
+    │       ├── controller/
+    │       │   └── ProdutoController.java   ← Recebe requisições HTTP
+    │       ├── service/
+    │       │   └── ProdutoService.java      ← Regras de negócio
+    │       ├── repository/
+    │       │   └── ProdutoRepository.java   ← Acesso ao banco (Spring Data JPA)
+    │       └── model/
+    │           └── Produto.java             ← Entidade JPA (id, nome, preco)
+    └── resources/
+        └── application.properties           ← Configuração com ${DB_PASSWORD}
 ```
 
-### Fluxo de uma requisição
+### Fluxo de uma Requisição HTTP
 
-```
-Cliente HTTP
-    │
-    ▼
-Controller   ← recebe e valida a requisição HTTP
-    │
-    ▼
-Service      ← processa regras de negócio
-    │
-    ▼
-Repository   ← executa operações no banco de dados
-    │
-    ▼
-PostgreSQL   ← persistência dos dados
+```text
+[Cliente HTTP / curl / Postman]
+           │
+           ▼  HTTP Request
+   [ ProdutoController ]   ← Camada de entrada; mapeia rotas e serializa JSON
+           │
+           ▼  Chama método de negócio
+    [ ProdutoService ]     ← Valida regras; orquestra operações
+           │
+           ▼  Consulta / Persiste
+  [ ProdutoRepository ]    ← Interface JPA; gera SQL automaticamente
+           │
+           ▼  JDBC / SQL
+      [ PostgreSQL ]       ← Banco relacional; tabela 'produto'
+           │
+           ▲  Resultado
+   (resposta percorre o caminho inverso até o cliente)
 ```
 
 ---
 
-## ✅ Funcionalidades
+## 🔌 Matriz de Endpoints — CRUD Completo
 
-- [x] Cadastro de usuários
-- [x] Listagem de todos os usuários
-- [x] Atualização de dados de um usuário existente
-- [x] Remoção de usuários por ID
-
----
-
-## 🔗 Endpoints
-
-Base URL: `http://localhost:8080`
-
-| Método | Endpoint | Descrição | Status HTTP |
-|:---:|:---|:---|:---:|
-| `GET` | `/usuarios` | Lista todos os usuários | `200 OK` |
-| `POST` | `/usuarios` | Cria um novo usuário | `201 Created` |
-| `PUT` | `/usuarios/{id}` | Atualiza um usuário existente | `200 OK` |
-| `DELETE` | `/usuarios/{id}` | Remove um usuário por ID | `204 No Content` |
+| Método   | Endpoint           | Descrição da Ação                      | Status HTTP de Sucesso |
+|----------|--------------------|----------------------------------------|------------------------|
+| `GET`    | `/produtos`        | Lista todos os produtos cadastrados    | `200 OK`               |
+| `GET`    | `/produtos/{id}`   | Retorna um produto específico pelo ID  | `200 OK`               |
+| `POST`   | `/produtos`        | Cadastra um novo produto               | `201 Created`          |
+| `PUT`    | `/produtos/{id}`   | Atualiza os dados de um produto        | `200 OK`               |
+| `DELETE` | `/produtos/{id}`   | Remove um produto pelo ID              | `204 No Content`       |
 
 ---
 
-### Exemplos de Requisições
+## 📋 Payloads de Requisição e Resposta
 
-#### ➕ Criar usuário — `POST /usuarios`
+### `POST /produtos` — Cadastrar produto
 
 **Request Body:**
 ```json
 {
-  "nome": "Fulano de Tal",
-  "email": "fulano@email.com"
+  "nome": "Monitor LG UltraWide 29\"",
+  "preco": 1499.90
 }
 ```
 
-**Response `201 Created`:**
+**Response Body** `201 Created`:
 ```json
 {
   "id": 1,
-  "nome": "Fulano de Tal",
-  "email": "fulano@email.com"
+  "nome": "Monitor LG UltraWide 29\"",
+  "preco": 1499.90
 }
 ```
 
 ---
 
-#### 📋 Listar usuários — `GET /usuarios`
+### `PUT /produtos/{id}` — Atualizar produto
 
-**Response `200 OK`:**
+**Request Body:**
+```json
+{
+  "nome": "Monitor LG UltraWide 29\" (Refurbished)",
+  "preco": 1199.90
+}
+```
+
+**Response Body** `200 OK`:
+```json
+{
+  "id": 1,
+  "nome": "Monitor LG UltraWide 29\" (Refurbished)",
+  "preco": 1199.90
+}
+```
+
+---
+
+### `GET /produtos` — Listar todos os produtos
+
+**Response Body** `200 OK`:
 ```json
 [
   {
     "id": 1,
-    "nome": "Fulano de Tal",
-    "email": "fulano@email.com"
+    "nome": "Monitor LG UltraWide 29\" (Refurbished)",
+    "preco": 1199.90
   },
   {
     "id": 2,
-    "nome": "Ciclana Silva",
-    "email": "ciclana@email.com"
+    "nome": "Teclado Mecânico Keychron K2",
+    "preco": 459.00
+  },
+  {
+    "id": 3,
+    "nome": "SSD Kingston NV3 1TB M.2",
+    "preco": 329.90
   }
 ]
 ```
 
 ---
 
-#### ✏️ Atualizar usuário — `PUT /usuarios/{id}`
+## 🚀 Passo a Passo para Execução Local
 
-**Request Body:**
-```json
-{
-  "nome": "Fulano Atualizado",
-  "email": "fulano.novo@email.com"
-}
-```
+### ✅ Pré-requisitos
 
-**Response `200 OK`:**
-```json
-{
-  "id": 1,
-  "nome": "Fulano Atualizado",
-  "email": "fulano.novo@email.com"
-}
-```
+- Java 21 instalado e configurado no `PATH`
+- PostgreSQL 18.3 em execução na porta `5432`
+- Maven 3.x (ou use o Maven Wrapper incluso no projeto — recomendado)
 
 ---
 
-#### 🗑️ Remover usuário — `DELETE /usuarios/{id}`
-
-**Response:** `204 No Content`
-
----
-
-## 🚀 Como Executar o Projeto
-
-### Pré-requisitos
-
-Certifique-se de ter instalado em sua máquina:
-
-- [Java 21](https://adoptium.net/)
-- [PostgreSQL 15+](https://www.postgresql.org/download/)
-- [Maven 3.x](https://maven.apache.org/download.cgi) *(ou utilize o wrapper `./mvnw` incluso no projeto)*
-- [Git](https://git-scm.com/)
-
----
-
-### 1. Clonar o repositório
+### 1️⃣ Clonar o Repositório
 
 ```bash
 git clone https://github.com/claudiodeveloper-github/crudapi-springboot.git
 cd crudapi-springboot
 ```
 
-### 2. Configurar o banco de dados
+---
 
-Crie o banco de dados no PostgreSQL:
+### 2️⃣ Criar o Banco de Dados
+
+Conecte-se ao PostgreSQL (via `psql`, DBeaver ou pgAdmin) e execute:
 
 ```sql
-CREATE DATABASE crud_db;
+CREATE DATABASE crudapi;
 ```
 
-Edite o arquivo `src/main/resources/application.properties` com suas credenciais:
+> O Hibernate irá criar a tabela `produto` automaticamente ao iniciar a aplicação (DDL auto).
 
-```properties
-# Datasource
-spring.datasource.url=jdbc:postgresql://localhost:5432/crud_db
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
+---
 
-# JPA / Hibernate
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-```
+### 3️⃣ ⚠️ Configurar a Variável de Ambiente `DB_PASSWORD` no IntelliJ IDEA
 
-> ⚠️ **Atenção:** Nunca suba credenciais reais para o repositório. Utilize variáveis de ambiente em produção.
+O arquivo `application.properties` **não armazena a senha em texto puro**. Ele lê a credencial via `${DB_PASSWORD}`. Para que a aplicação inicialize sem erros de autenticação com o PostgreSQL, siga os passos abaixo:
 
-### 3. Executar a aplicação
+1. Na barra superior do IntelliJ, clique em **"Edit Configurations..."** (ao lado do botão ▶ Run).
+2. No painel que abrir, selecione a configuração da sua aplicação Spring Boot.
+3. Localize o campo **"Environment variables"** (na seção *Spring Boot* ou *JVM*).
+4. Clique no ícone 📋 à direita do campo para abrir o editor.
+5. Adicione a entrada:
+   ```
+   DB_PASSWORD=sua_senha_do_postgres
+   ```
+6. Clique em **OK** → **Apply** → **OK**.
+7. Execute a aplicação normalmente com ▶ Run.
 
-Com o Maven Wrapper (recomendado):
+> Sem essa configuração, o Spring Boot lançará `PSQLException: FATAL: password authentication failed` na inicialização.
 
+---
+
+### 4️⃣ Inicializar a Aplicação via Maven Wrapper
+
+**Linux / macOS:**
 ```bash
+chmod +x mvnw
 ./mvnw spring-boot:run
 ```
 
-Ou com Maven instalado globalmente:
-
+**Windows (Prompt de Comando ou PowerShell):**
 ```bash
-mvn spring-boot:run
+mvnw.cmd spring-boot:run
 ```
 
-A aplicação estará disponível em: `http://localhost:8080`
+A API estará disponível em: **`http://localhost:8080`**
 
-### 4. Testar os endpoints
+---
 
-Você pode testar a API com ferramentas como:
+## 🧪 Guia de Testes Rápidos com `curl`
 
-- [Postman](https://www.postman.com/)
-- [Insomnia](https://insomnia.rest/)
-- `curl` no terminal:
+Copie e cole os comandos abaixo diretamente no terminal. Nenhuma ferramenta adicional necessária.
 
+### Listar todos os produtos
 ```bash
-# Listar usuários
-curl -X GET http://localhost:8080/usuarios
+curl -X GET http://localhost:8080/produtos
+```
 
-# Criar usuário
-curl -X POST http://localhost:8080/usuarios \
+### Buscar produto por ID
+```bash
+curl -X GET http://localhost:8080/produtos/1
+```
+
+### Cadastrar novo produto
+```bash
+curl -X POST http://localhost:8080/produtos \
   -H "Content-Type: application/json" \
-  -d '{"nome": "Fulano de Tal", "email": "fulano@email.com"}'
+  -d "{\"nome\": \"Headset HyperX Cloud II\", \"preco\": 399.90}"
 ```
 
+> **Windows (Prompt de Comando):** substitua as aspas simples externas por `"` e escape as internas com `\"`:
+> ```cmd
+> curl -X POST http://localhost:8080/produtos -H "Content-Type: application/json" -d "{\"nome\": \"Headset HyperX Cloud II\", \"preco\": 399.90}"
+> ```
+
+### Atualizar produto existente
+```bash
+curl -X PUT http://localhost:8080/produtos/1 \
+  -H "Content-Type: application/json" \
+  -d "{\"nome\": \"Headset HyperX Cloud II Wireless\", \"preco\": 549.90}"
+```
+
+### Deletar produto
+```bash
+curl -X DELETE http://localhost:8080/produtos/1
+```
+
+> Resposta esperada: `204 No Content` (sem body).
+
 ---
 
-## 🔮 Melhorias Futuras
+## 🔒 Segurança de Credenciais
 
-- [ ] Validação de dados com `Bean Validation` (`@NotBlank`, `@Email`, etc.)
-- [ ] Tratamento global de exceções com `@ControllerAdvice`
-- [ ] Documentação automática com **Swagger / OpenAPI**
-- [ ] Testes unitários e de integração com **JUnit 5** e **Mockito**
-- [ ] Containerização com **Docker** e **Docker Compose**
-- [ ] Paginação e ordenação nos endpoints de listagem
-- [ ] Autenticação e autorização com **Spring Security + JWT**
+O `application.properties` utiliza interpolação de variável de ambiente para a senha do banco:
 
----
+```properties
+spring.datasource.password=${DB_PASSWORD}
+```
 
-## 📄 Licença
-
-Este projeto está sob a licença **MIT**. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
+Isso garante que **nenhuma credencial é exposta no código-fonte ou no histórico do Git**. A senha existe apenas em tempo de execução, via configuração local da IDE ou variáveis do sistema operacional.
 
 ---
 
-<div align="center">
-  Desenvolvido por <a href="https://github.com/claudiodeveloper-github">claudiodeveloper-github</a>
-</div>
+<p align="center">
+  Desenvolvido por <strong>Cláudio</strong> · <a href="https://github.com/claudiodeveloper-github">@claudiodeveloper-github</a>
+</p>
