@@ -115,6 +115,7 @@ src/
   "preco": 1199.90
 }
 ```
+<!-- TODO: criar testes de integração com @SpringBootTest (#9) -->
 
 **Response Body** `200 OK`:
 ```json
