@@ -103,7 +103,7 @@ src/
   "preco": 1499.90
 }
 ```
-
+<!-- TODO: implementar paginação no GET /produtos (#5) -->
 ---
 
 ### `PUT /produtos/{id}` — Atualizar produto
