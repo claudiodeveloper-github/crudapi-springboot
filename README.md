@@ -81,6 +81,7 @@ src/
 | `DELETE` | `/produtos/{id}`   | Remove um produto pelo ID              | `204 No Content`       |
 
 ---
+<!-- TODO: documentar endpoints com Swagger/OpenAPI (#3) -->
 
 ## 📋 Payloads de Requisição e Resposta
 
