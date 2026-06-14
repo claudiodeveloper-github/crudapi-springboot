@@ -11,6 +11,8 @@ API RESTful completa para o gerenciamento de um catálogo de produtos, construí
 
 ---
 
+<!-- TODO: adicionar tratamento global de exceções com @ControllerAdvice (#1) -->
+
 ## 📦 Tecnologias Utilizadas
 
 | Tecnologia           | Versão              | Finalidade no Projeto                                     |
