@@ -124,7 +124,7 @@ src/
   "preco": 1199.90
 }
 ```
-
+<!-- TODO: adicionar validações com Bean Validation nos DTOs (#7) -->
 ---
 
 ### `GET /produtos` — Listar todos os produtos
