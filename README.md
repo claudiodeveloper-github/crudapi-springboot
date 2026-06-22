@@ -4,25 +4,38 @@
   <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21"/>
   <img src="https://img.shields.io/badge/Spring_Boot-4.0.6-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 4.0.6"/>
   <img src="https://img.shields.io/badge/PostgreSQL-18.3-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL 18.3"/>
+  <img src="https://img.shields.io/badge/Swagger-OpenAPI_3.1-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" alt="Swagger OpenAPI 3.1"/>
   <img src="https://img.shields.io/badge/Maven-3.x-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven 3.x"/>
 </p>
 
-API RESTful completa para o gerenciamento de um catálogo de produtos, construída com Java 21 e Spring Boot 4. Implementa todas as operações de CRUD via endpoints HTTP padronizados, com persistência em PostgreSQL e credenciais protegidas por variáveis de ambiente. Projeto estruturado em arquitetura em camadas, demonstrando separação clara de responsabilidades e boas práticas de engenharia de software.
+API RESTful completa para o gerenciamento de um catálogo de produtos, construída com Java 21 e Spring Boot 4. Implementa todas as operações de CRUD via endpoints HTTP padronizados, com persistência em PostgreSQL, credenciais protegidas por variáveis de ambiente e documentação interativa via Swagger UI. Projeto estruturado em arquitetura em camadas, demonstrando separação clara de responsabilidades e boas práticas de engenharia de software.
 
 ---
 
-<!-- TODO: adicionar tratamento global de exceções com @ControllerAdvice (#1) -->
-
 ## 📦 Tecnologias Utilizadas
 
-| Tecnologia           | Versão              | Finalidade no Projeto                                     |
-|----------------------|---------------------|-----------------------------------------------------------|
-| Java                 | 21 (Oracle OpenJDK) | Linguagem principal da aplicação                          |
-| Spring Boot          | 4.0.6               | Framework base: IoC, auto-configuração, servidor embutido |
+| Tecnologia           | Versão                | Finalidade no Projeto                                     |
+|----------------------|-----------------------|-----------------------------------------------------------|
+| Java                 | 21 (Oracle OpenJDK)   | Linguagem principal da aplicação                          |
+| Spring Boot          | 4.0.6                 | Framework base: IoC, auto-configuração, servidor embutido |
 | Spring Data JPA      | (gerenciado pelo BOM) | Abstração do acesso a dados via repositórios              |
-| Hibernate            | 7.2.12.Final        | Implementação JPA; geração e execução de SQL              |
-| PostgreSQL           | 18.3                | Banco de dados relacional para persistência               |
-| Maven                | 3.x                 | Gerenciamento de dependências e ciclo de build            |
+| Hibernate            | 7.2.12.Final          | Implementação JPA; geração e execução de SQL              |
+| PostgreSQL           | 18.3                  | Banco de dados relacional para persistência               |
+| springdoc-openapi    | 2.8.9                 | Geração automática da documentação OpenAPI 3.1 + Swagger UI |
+| Maven                | 3.x                   | Gerenciamento de dependências e ciclo de build            |
+
+---
+
+## 📄 Documentação da API
+
+A documentação interativa é gerada automaticamente pelo **springdoc-openapi** e fica disponível após iniciar a aplicação:
+
+| Interface         | URL                                          |
+|-------------------|----------------------------------------------|
+| Swagger UI        | http://localhost:8080/swagger-ui/index.html  |
+| OpenAPI JSON      | http://localhost:8080/v3/api-docs            |
+
+Pelo Swagger UI é possível visualizar todos os endpoints, seus parâmetros, schemas de request/response e executar chamadas diretamente no browser — sem precisar de Postman ou curl.
 
 ---
 
@@ -34,7 +47,9 @@ API RESTful completa para o gerenciamento de um catálogo de produtos, construí
 src/
 └── main/
     ├── java/
-    │   └── com/seuprojeto/crudapi/
+    │   └── com/claudio/crudapi/
+    │       ├── config/
+    │       │   └── OpenApiConfig.java       ← Configuração do título e metadados da API
     │       ├── controller/
     │       │   └── ProdutoController.java   ← Recebe requisições HTTP
     │       ├── service/
@@ -50,7 +65,7 @@ src/
 ### Fluxo de uma Requisição HTTP
 
 ```text
-[Cliente HTTP / curl / Postman]
+[Cliente HTTP / curl / Postman / Swagger UI]
            │
            ▼  HTTP Request
    [ ProdutoController ]   ← Camada de entrada; mapeia rotas e serializa JSON
@@ -81,7 +96,6 @@ src/
 | `DELETE` | `/produtos/{id}`   | Remove um produto pelo ID              | `204 No Content`       |
 
 ---
-<!-- TODO: documentar endpoints com Swagger/OpenAPI (#3) -->
 
 ## 📋 Payloads de Requisição e Resposta
 
@@ -103,7 +117,7 @@ src/
   "preco": 1499.90
 }
 ```
-<!-- TODO: implementar paginação no GET /produtos (#5) -->
+
 ---
 
 ### `PUT /produtos/{id}` — Atualizar produto
@@ -115,7 +129,6 @@ src/
   "preco": 1199.90
 }
 ```
-<!-- TODO: criar testes de integração com @SpringBootTest (#9) -->
 
 **Response Body** `200 OK`:
 ```json
@@ -125,7 +138,7 @@ src/
   "preco": 1199.90
 }
 ```
-<!-- TODO: adicionar validações com Bean Validation nos DTOs (#7) -->
+
 ---
 
 ### `GET /produtos` — Listar todos os produtos
@@ -184,26 +197,39 @@ CREATE DATABASE crudapi;
 
 ---
 
-### 3️⃣ ⚠️ Configurar a Variável de Ambiente `DB_PASSWORD` no IntelliJ IDEA
+### 3️⃣ ⚠️ Configurar a Variável de Ambiente `DB_PASSWORD`
 
-O arquivo `application.properties` **não armazena a senha em texto puro**. Ele lê a credencial via `${DB_PASSWORD}`. Para que a aplicação inicialize sem erros de autenticação com o PostgreSQL, siga os passos abaixo:
+O arquivo `application.properties` **não armazena a senha em texto puro**. Ele lê a credencial via `${DB_PASSWORD}`.
 
-1. Na barra superior do IntelliJ, clique em **"Edit Configurations..."** (ao lado do botão ▶ Run).
-2. No painel que abrir, selecione a configuração da sua aplicação Spring Boot.
-3. Localize o campo **"Environment variables"** (na seção *Spring Boot* ou *JVM*).
-4. Clique no ícone 📋 à direita do campo para abrir o editor.
-5. Adicione a entrada:
-   ```
+**No IntelliJ IDEA:**
+
+1. Clique em **"Edit Configurations..."** (ao lado do botão ▶ Run).
+2. Selecione a configuração da sua aplicação Spring Boot.
+3. Localize o campo **"Environment variables"** e clique no ícone 📋.
+4. Adicione a entrada:
    DB_PASSWORD=sua_senha_do_postgres
-   ```
-6. Clique em **OK** → **Apply** → **OK**.
-7. Execute a aplicação normalmente com ▶ Run.
 
-> Sem essa configuração, o Spring Boot lançará `PSQLException: FATAL: password authentication failed` na inicialização.
+6. Clique em **OK** → **Apply** → **OK** e execute com ▶ Run.
+
+**No terminal (PowerShell):**
+
+```powershell
+$env:DB_PASSWORD="sua_senha_do_postgres"
+./mvnw spring-boot:run
+```
+
+**No terminal (Linux / macOS):**
+
+```bash
+export DB_PASSWORD=sua_senha_do_postgres
+./mvnw spring-boot:run
+```
+
+> Sem essa configuração, o Spring Boot lançará `PSQLException: FATAL: password authentication failed`.
 
 ---
 
-### 4️⃣ Inicializar a Aplicação via Maven Wrapper
+### 4️⃣ Inicializar a Aplicação
 
 **Linux / macOS:**
 ```bash
@@ -211,18 +237,18 @@ chmod +x mvnw
 ./mvnw spring-boot:run
 ```
 
-**Windows (Prompt de Comando ou PowerShell):**
+**Windows:**
 ```bash
 mvnw.cmd spring-boot:run
 ```
 
 A API estará disponível em: **`http://localhost:8080`**
 
+A documentação Swagger estará disponível em: **`http://localhost:8080/swagger-ui/index.html`**
+
 ---
 
 ## 🧪 Guia de Testes Rápidos com `curl`
-
-Copie e cole os comandos abaixo diretamente no terminal. Nenhuma ferramenta adicional necessária.
 
 ### Listar todos os produtos
 ```bash
@@ -241,7 +267,7 @@ curl -X POST http://localhost:8080/produtos \
   -d "{\"nome\": \"Headset HyperX Cloud II\", \"preco\": 399.90}"
 ```
 
-> **Windows (Prompt de Comando):** substitua as aspas simples externas por `"` e escape as internas com `\"`:
+> **Windows (Prompt de Comando):**
 > ```cmd
 > curl -X POST http://localhost:8080/produtos -H "Content-Type: application/json" -d "{\"nome\": \"Headset HyperX Cloud II\", \"preco\": 399.90}"
 > ```
