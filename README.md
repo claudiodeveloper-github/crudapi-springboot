@@ -1,4 +1,4 @@
-# 🗄️ crudapi-springboot
+#  crudapi-springboot
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21"/>
@@ -12,7 +12,7 @@ API RESTful completa para o gerenciamento de um catálogo de produtos, construí
 
 ---
 
-## 📦 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 | Tecnologia           | Versão                | Finalidade no Projeto                                     |
 |----------------------|-----------------------|-----------------------------------------------------------|
@@ -26,7 +26,7 @@ API RESTful completa para o gerenciamento de um catálogo de produtos, construí
 
 ---
 
-## 📄 Documentação da API
+##  Documentação da API
 
 A documentação interativa é gerada automaticamente pelo **springdoc-openapi** e fica disponível após iniciar a aplicação:
 
@@ -39,7 +39,7 @@ Pelo Swagger UI é possível visualizar todos os endpoints, seus parâmetros, sc
 
 ---
 
-## 🏗️ Arquitetura e Fluxo de Requisição
+##  Arquitetura e Fluxo de Requisição
 
 ### Estrutura de Pacotes
 
@@ -85,7 +85,7 @@ src/
 
 ---
 
-## 🔌 Matriz de Endpoints — CRUD Completo
+##  Matriz de Endpoints — CRUD Completo
 
 | Método   | Endpoint           | Descrição da Ação                      | Status HTTP de Sucesso |
 |----------|--------------------|----------------------------------------|------------------------|
@@ -97,7 +97,7 @@ src/
 
 ---
 
-## 📋 Payloads de Requisição e Resposta
+##  Payloads de Requisição e Resposta
 
 ### `POST /produtos` — Cadastrar produto
 
@@ -166,7 +166,7 @@ src/
 
 ---
 
-## 🚀 Passo a Passo para Execução Local
+##  Passo a Passo para Execução Local
 
 ### ✅ Pré-requisitos
 
@@ -248,7 +248,7 @@ A documentação Swagger estará disponível em: **`http://localhost:8080/swagge
 
 ---
 
-## 🧪 Guia de Testes Rápidos com `curl`
+##  Guia de Testes Rápidos com `curl`
 
 ### Listar todos os produtos
 ```bash
@@ -288,7 +288,7 @@ curl -X DELETE http://localhost:8080/produtos/1
 
 ---
 
-## 🔒 Segurança de Credenciais
+##  Segurança de Credenciais
 
 O `application.properties` utiliza interpolação de variável de ambiente para a senha do banco:
 
