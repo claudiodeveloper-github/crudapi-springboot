@@ -300,6 +300,37 @@ Isso garante que **nenhuma credencial é exposta no código-fonte ou no históri
 
 ---
 
-<p align="center">
-  Desenvolvido por <strong>Cláudio</strong> · <a href="https://github.com/claudiodeveloper-github">@claudiodeveloper-github</a>
-</p>
+## 👤 Autor
+
+<div align="center">
+
+<img src="https://github.com/claudiodeveloper-github.png" width="100" style="border-radius: 50%;" />
+
+**Cláudio G. S. Castro**
+*Java Backend Developer em Formação*
+
+Desenvolvedor Backend em formação com foco em Java e Spring Boot.
+Construindo APIs robustas com boas práticas, aprendendo continuamente e enfrentando desafios reais.
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/claudio-g-s-castro)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/claudiodeveloper-github)
+[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:claudiodeveloper007@gmail.com)
+
+</div>
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença **MIT** — veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+<div align="center">
+
+*Feito com ☕ Java e muito aprendizado por **Cláudio G. S. Castro***
+
+⭐ Se este projeto te ajudou ou te inspirou, deixa uma estrela no repositório!
+
+</div>
+
