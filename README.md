@@ -324,7 +324,7 @@ Construindo APIs robustas com boas práticas, aprendendo continuamente e enfrent
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a licença **MIT** — veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está licenciado sob a licença **MIT** — veja o arquivo [LICENSE](LICENSE) para mais detalhes..
 
 ---
 
